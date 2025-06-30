@@ -10,7 +10,7 @@
     href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
     rel="stylesheet"
   />
-  <!-- Bootstrap Icons for stars -->
+  <!-- Bootstrap Icons -->
   <link
     href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
     rel="stylesheet"
@@ -22,122 +22,65 @@
   />
 
   <style>
-    /* ---- Modern Base Styles ---- */
-    body {
-      font-family: 'Inter', sans-serif;
-      line-height: 1.6;
-      color: #333;
-      background: #f8f9fa;
-    }
-    .navbar {
-      background: #fff;
-      border-bottom: 1px solid #e5e5e5;
-      padding: .75rem 1rem;
-    }
-    .logo-text {
-      font-weight: 700;
-      font-size: 1.6rem;
-    }
+    body { font-family:'Inter',sans-serif; line-height:1.6; color:#333; background:#f8f9fa; }
+    .navbar { background:#fff; border-bottom:1px solid #e5e5e5; padding:.75rem 1rem; }
+    .logo-text { font-weight:700; font-size:1.6rem; }
     .nav-link {
-      position: relative;
-      text-transform: uppercase;
-      letter-spacing: .05em;
-      margin-left: 1.2rem;
-      transition: color .2s;
-      text-decoration: none;
-      padding-bottom: 2px;
+      position:relative; text-transform:uppercase; letter-spacing:.05em;
+      margin-left:1.2rem; transition:color .2s; text-decoration:none; padding-bottom:2px;
     }
-    .nav-link:hover, .nav-link.active {
-      color: var(--bs-primary);
-    }
+    .nav-link:hover, .nav-link.active { color:var(--bs-primary); }
     .nav-link::after {
-      content: '';
-      position: absolute;
-      left: 0; bottom: 0;
-      height: 2px; width: 0;
-      background: currentColor;
-      transition: width .3s ease;
+      content:''; position:absolute; left:0; bottom:0; height:2px; width:0;
+      background:currentColor; transition:width .3s ease;
     }
-    .nav-link:hover::after,
-    .nav-link.active::after {
-      width: 100%;
-    }
+    .nav-link:hover::after, .nav-link.active::after { width:100%; }
+
     .hero {
-      background: linear-gradient(135deg, #6c63ff 0%, #4dd0e1 100%);
-      color: #fff;
-      text-align: center;
-      padding: 6rem 1rem 4rem;
+      background:linear-gradient(135deg,#6c63ff,#4dd0e1);
+      color:#fff; text-align:center; padding:6rem 1rem 4rem;
     }
-    .hero h1 {
-      font-weight: 600;
-      font-size: 2.75rem;
-    }
-    .hero .lead {
-      font-weight: 300;
-      font-size: 1.5rem;
-      margin-bottom: 2rem;
-    }
-    .btn-primary {
-      text-transform: uppercase;
-      letter-spacing: .05em;
-      padding: .75rem 1.5rem;
-    }
+    .hero h1 { font-weight:600; font-size:2.75rem; }
+    .hero .lead { font-weight:300; font-size:1.5rem; margin-bottom:2rem; }
+    .btn-primary { text-transform:uppercase; letter-spacing:.05em; padding:.75rem 1.5rem; }
     .card {
-      border-radius: .5rem;
-      overflow: hidden;
-      transition: transform .3s, box-shadow .3s;
+      border-radius:.5rem; overflow:hidden;
+      transition:transform .3s,box-shadow .3s;
     }
     .card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 12px 24px rgba(0,0,0,.1);
+      transform:translateY(-8px);
+      box-shadow:0 12px 24px rgba(0,0,0,.1);
     }
     footer {
-      background: #fff;
-      border-top: 1px solid #e5e5e5;
-      text-transform: uppercase;
-      letter-spacing: .05em;
-      font-size: .85rem;
-      padding: 1rem 0;
+      background:#fff; border-top:1px solid #e5e5e5;
+      text-transform:uppercase; letter-spacing:.05em;
+      font-size:.85rem; padding:1rem 0;
     }
 
-    /* ---- TMDb & Extras ---- */
-    :root { --bs-primary: #6c63ff; }
+    :root { --bs-primary:#6c63ff; }
     .btn-contact {
-      border-radius: 50px;
-      color: #212529;
-      border: 1px solid #212529;
+      border-radius:50px; color:#212529; border:1px solid #212529;
     }
-    .btn-contact:hover { background: rgba(33,33,33,0.1); }
-    .form-control { border: 2px solid var(--bs-primary); }
-    .rounded-pill { border-radius: 50rem !important; }
-    .clickable { cursor: pointer; }
-    .card-title { color: var(--bs-primary); }
-    .rating-stars .bi { color: gold; }
+    .btn-contact:hover { background:rgba(33,33,33,0.1); }
+    .form-control { border:2px solid var(--bs-primary); }
+    .rounded-pill { border-radius:50rem!important; }
+    .clickable { cursor:pointer; }
+    .card-title { color:var(--bs-primary); }
+    .rating-stars .bi { color:gold; }
     .reel {
-      transform-origin: center;
-      animation: spin 2s linear infinite;
+      transform-origin:center; animation:spin 2s linear infinite;
     }
     @keyframes spin {
-      0%   { transform: rotate(0deg) scale(1); }
-      50%  { transform: rotate(180deg) scale(1.1); }
-      100% { transform: rotate(360deg) scale(1); }
+      0%{transform:rotate(0) scale(1)}50%{transform:rotate(180deg) scale(1.1)}100%{transform:rotate(360deg) scale(1)}
     }
 
-    /* Skeleton loading */
     .skeleton {
-      background-color: #e0e0e0;
-      border-radius: .25rem;
-      animation: pulse 1.5s ease-in-out infinite;
+      background:#e0e0e0; border-radius:.25rem;
+      animation:pulse 1.5s ease-in-out infinite;
     }
-    .skeleton-img { width: 100%; height: 350px; }
-    .skeleton-text {
-      height: 1rem; margin-top: .5rem; width: 80%;
-    }
-    @keyframes pulse {
-      0%   { opacity: 1; }
-      50%  { opacity: .4; }
-      100% { opacity: 1; }
-    }
+    .skeleton-img { width:100%; height:350px; }
+    .skeleton-text { height:1rem; margin-top:.5rem; width:80%; }
+    @keyframes pulse {0%{opacity:1}50%{opacity:.4}100%{opacity:1}}
   </style>
 </head>
 <body>
@@ -146,7 +89,7 @@
   <nav class="navbar navbar-expand-lg shadow-sm">
     <div class="container">
       <a class="navbar-brand d-flex align-items-center" href="index.html">
-        <svg width="40" height="40" viewBox="0 0 250 200" xmlns="http://www.w3.org/2000/svg">
+        <svg width="40" height="40" viewBox="0 0 250 200">
           <path d="M30,150 L30,60 L80,60 L105,100 L155,60 L205,60 L205,150 Z" fill="#6c63ff"/>
           <circle class="reel" cx="90" cy="60" r="20" fill="#4dd0e1"/>
           <circle class="reel" cx="160" cy="60" r="20" fill="#4dd0e1"/>
@@ -156,8 +99,8 @@
         <span class="ms-2 logo-text text-dark">MyMovieDB</span>
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-              data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
-              aria-label="Toggle navigation">
+              data-bs-target="#navbarNav" aria-controls="navbarNav"
+              aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
@@ -181,28 +124,33 @@
       <p class="lead">START TYPING TO BROWSE NEW MOVIES</p>
       <form id="search-form" class="row g-2 justify-content-center">
         <div class="col-12 col-md-6">
-          <input
-            id="search-input"
-            type="text"
-            class="form-control rounded-pill"
-            placeholder="Browse Movies In Theaters"
-            autocomplete="off"
-          />
+          <input id="search-input" type="text"
+                 class="form-control rounded-pill"
+                 placeholder="Browse Movies In Theaters"
+                 autocomplete="off">
         </div>
         <div class="col-12 col-md-1 d-grid">
-          <button id="search-btn" type="submit" class="btn btn-primary rounded-pill">
-            Search
-          </button>
+          <button id="search-btn" type="submit"
+                  class="btn btn-primary rounded-pill">Search</button>
         </div>
       </form>
     </div>
   </header>
 
-  <!-- RESULTS GRID -->
+  <!-- SORT & RESULTS -->
   <main class="container py-4">
-    <div id="results"
-         class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+    <div class="d-flex justify-content-end mb-3">
+      <select id="sort-select" class="form-select w-auto">
+        <option value="none" selected>Sort By</option>
+        <option value="title-asc">Title A→Z</option>
+        <option value="title-desc">Title Z→A</option>
+        <option value="rating-desc">Rating High→Low</option>
+        <option value="rating-asc">Rating Low→High</option>
+        <option value="release-asc">Release Old→New</option>
+        <option value="release-desc">Release New→Old</option>
+      </select>
     </div>
+    <div id="results" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4"></div>
   </main>
 
   <!-- FOOTER -->
@@ -223,21 +171,25 @@
         <div class="modal-body p-4">
           <form id="contactForm">
             <div class="form-floating mb-3">
-              <input type="text" class="form-control" id="contact-name" placeholder="Your Name" required>
+              <input type="text" class="form-control" id="contact-name"
+                     placeholder="Your Name" required>
               <label for="contact-name">Your Name</label>
             </div>
             <div class="form-floating mb-3">
-              <input type="email" class="form-control" id="contact-email" placeholder="name@example.com" required>
+              <input type="email" class="form-control" id="contact-email"
+                     placeholder="name@example.com" required>
               <label for="contact-email">Email address</label>
             </div>
             <div class="form-floating mb-4">
               <textarea class="form-control" id="contact-message"
                         placeholder="Leave your message here"
-                        style="height: 120px" required></textarea>
+                        style="height:120px" required></textarea>
               <label for="contact-message">Message</label>
             </div>
             <div class="d-grid">
-              <button type="submit" class="btn btn-primary btn-lg">Send Message</button>
+              <button type="submit" class="btn btn-primary btn-lg">
+                Send Message
+              </button>
             </div>
           </form>
         </div>
@@ -245,38 +197,35 @@
     </div>
   </div>
 
-  <!-- Bootstrap JS -->
+  <!-- Bootstrap JS + Inline Search/Filter Logic -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
-  <!-- Inline TMDb + search logic -->
   <script>
-    const API_KEY = '938bf0f74418d8f3715d37699adfa035';
-    const resultsEl = document.getElementById('results');
-    const inputEl   = document.getElementById('search-input');
-    const formEl    = document.getElementById('search-form');
-    let timer;
+    const API_KEY    = '938bf0f74418d8f3715d37699adfa035';
+    const resultsEl  = document.getElementById('results');
+    const inputEl    = document.getElementById('search-input');
+    const formEl     = document.getElementById('search-form');
+    const sortEl     = document.getElementById('sort-select');
+    let lastList     = [], timer;
 
-    function roundToHalf(n) {
-      return Math.round(n * 2) / 2;
-    }
+    function roundToHalf(n){ return Math.round(n*2)/2; }
 
-    function renderStars(vote) {
-      const val  = roundToHalf(vote / 2);
-      const full = Math.floor(val),
-            half = (val - full) >= 0.5 ? 1 : 0,
-            empty = 5 - full - half;
+    function renderStars(v){
+      const val   = roundToHalf(v/2);
+      const full  = Math.floor(val);
+      const half  = (val-full)>=0.5 ? 1 : 0;
+      const empty = 5-full-half;
       return (
-        '<span class="rating-stars">' +
-          '<i class="bi bi-star-fill"></i>'.repeat(full) +
-          (half ? '<i class="bi bi-star-half"></i>' : '') +
-          '<i class="bi bi-star"></i>'.repeat(empty) +
+        '<span class="rating-stars">'+
+          '<i class="bi bi-star-fill"></i>'.repeat(full)+
+          (half ? '<i class="bi bi-star-half"></i>' : '')+
+          '<i class="bi bi-star"></i>'.repeat(empty)+
         `</span> <small class="text-muted">(${val})</small>`
       );
     }
 
-    function showLoading() {
+    function showLoading(){
       resultsEl.innerHTML = '';
-      for (let i = 0; i < 12; i++) {
+      for(let i=0;i<12;i++){
         const col = document.createElement('div');
         col.className = 'col';
         col.innerHTML = `
@@ -292,55 +241,37 @@
       }
     }
 
-    async function loadNow() {
-      showLoading();
-      try {
-        const res = await fetch(
-          `https://api.themoviedb.org/3/movie/now_playing` +
-          `?api_key=${API_KEY}&language=en-US&page=1&region=US`
-        );
-        const data = await res.json();
-        show((data.results || []).slice(0,12));
-      } catch {
-        showError('Failed loading.');
+    function showError(msg){
+      resultsEl.innerHTML = `<div class="col-12 text-center text-danger">${msg}</div>`;
+    }
+
+    function applySort(arr){
+      switch(sortEl.value){
+        case 'title-asc':   return arr.sort((a,b)=>a.title.localeCompare(b.title));
+        case 'title-desc':  return arr.sort((a,b)=>b.title.localeCompare(a.title));
+        case 'rating-asc':  return arr.sort((a,b)=>a.vote_average - b.vote_average);
+        case 'rating-desc': return arr.sort((a,b)=>b.vote_average - a.vote_average);
+        case 'release-asc': return arr.sort((a,b)=>new Date(a.release_date)-new Date(b.release_date));
+        case 'release-desc':return arr.sort((a,b)=>new Date(b.release_date)-new Date(a.release_date));
+        default:            return arr;
       }
     }
 
-    async function searchMovies(q) {
-      showLoading();
-      try {
-        const res = await fetch(
-          `https://api.themoviedb.org/3/search/movie` +
-          `?api_key=${API_KEY}&language=en-US&query=${encodeURIComponent(q)}&page=1`
-        );
-        const data = await res.json();
-        show((data.results || []).slice(0,12));
-      } catch {
-        showError('Search failed.');
-      }
-    }
-
-    function show(list) {
+    function render(list){
+      if(!list.length) return showError('No results.');
       resultsEl.innerHTML = '';
-      if (!list.length) {
-        resultsEl.innerHTML = `
-          <div class="col-12 text-center text-muted">No results.</div>`;
-        return;
-      }
-      list.forEach(m => {
+      applySort([...list]).forEach(m=>{
         const col = document.createElement('div');
         col.className = 'col';
         col.innerHTML = `
           <div class="card h-100 shadow-sm clickable"
                onclick="location.href='movies.html?id=${m.id}'">
-            <img
-              src="${m.poster_path
-                ? 'https://image.tmdb.org/t/p/w500' + m.poster_path
-                : 'https://via.placeholder.com/300x450?text=No+Image'}"
-              class="card-img-top"
-              alt="${m.title}"
-              style="height:350px;object-fit:cover;"
-            />
+            <img src="${m.poster_path
+              ?'https://image.tmdb.org/t/p/w500'+m.poster_path
+              :'https://via.placeholder.com/300x450?text=No+Image'}"
+                 class="card-img-top"
+                 style="height:350px;object-fit:cover;"
+                 alt="${m.title}">
             <div class="card-body d-flex flex-column">
               <h5 class="card-title">${m.title} (${(m.release_date||'').slice(0,4)})</h5>
               <div class="mb-2">${renderStars(m.vote_average)}</div>
@@ -351,41 +282,62 @@
       });
     }
 
-    function showError(msg) {
-      resultsEl.innerHTML = `
-        <div class="col-12 text-center text-danger">${msg}</div>`;
+    async function loadNow(){
+      showLoading();
+      try {
+        const res = await fetch(
+          `https://api.themoviedb.org/3/movie/now_playing?api_key=${API_KEY}` +
+          `&language=en-US&page=1&region=US`
+        );
+        const data = await res.json();
+        lastList = (data.results||[]).slice(0,12);
+        render(lastList);
+      } catch {
+        showError('Failed loading.');
+      }
     }
 
-    // Live‐search on input (debounced)
-    inputEl.addEventListener('input', e => {
+    async function searchMovies(q){
+      showLoading();
+      try {
+        const res = await fetch(
+          `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}` +
+          `&language=en-US&query=${encodeURIComponent(q)}&page=1`
+        );
+        const data = await res.json();
+        lastList = (data.results||[]).slice(0,12);
+        render(lastList);
+      } catch {
+        showError('Search failed.');
+      }
+    }
+
+    inputEl.addEventListener('input', e=>{
       clearTimeout(timer);
       const v = e.target.value.trim();
-      if (v.length < 3) loadNow();
-      else timer = setTimeout(() => searchMovies(v), 300);
+      if(v.length<3) loadNow();
+      else timer = setTimeout(()=>searchMovies(v),300);
     });
 
-    // Submit (button or Enter)
-    formEl.addEventListener('submit', e => {
+    formEl.addEventListener('submit', e=>{
       e.preventDefault();
       const v = inputEl.value.trim();
-      (v.length >= 3 ? searchMovies : loadNow)(v);
+      (v.length>=3 ? searchMovies : loadNow)(v);
     });
 
-    // Contact form
-    document.getElementById('contactForm').addEventListener('submit', e => {
+    sortEl.addEventListener('change', ()=>render(lastList));
+
+    document.getElementById('contactForm').addEventListener('submit', e=>{
       e.preventDefault();
-      const n = document.getElementById('contact-name').value.trim(),
-            em = document.getElementById('contact-email').value.trim(),
-            msg= document.getElementById('contact-message').value.trim();
+      const n   = document.getElementById('contact-name').value.trim(),
+            em  = document.getElementById('contact-email').value.trim(),
+            msg = document.getElementById('contact-message').value.trim();
       window.location.href =
-        `mailto:admin@mymoviedb.com?subject=${encodeURIComponent('Contact from '+n)}` +
+        `mailto:admin@mymoviedb.com?subject=${encodeURIComponent('Contact from '+n)}`+
         `&body=${encodeURIComponent('Name: '+n+'%0AEmail: '+em+'%0A%0A'+msg)}`;
-      bootstrap.Modal.getInstance(
-        document.getElementById('contactModal')
-      ).hide();
+      bootstrap.Modal.getInstance(document.getElementById('contactModal')).hide();
     });
 
-    // Initial load
     loadNow();
   </script>
 </body>
