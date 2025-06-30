@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>MyMovieDB – OMDb Search</title>
+
+  <!-- Bootstrap CSS -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+  <!-- Bootstrap Icons for stars -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+    rel="stylesheet"
+  />
+  <!-- Inter font -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    /* ---- Modern Base Styles ---- */
+    body {
+      font-family: 'Inter',sans-serif;
+      line-height:1.6;
+      color:#333;
+      background:#f8f9fa;
+    }
+    .navbar {
+      background:#fff;
+      border-bottom:1px solid #e5e5e5;
+      padding:.75rem 1rem;
+    }
+    .navbar-brand .logo-text {
+      font-weight:700;
+      font-size:1.6rem;
+    }
+    .nav-link {
+      position:relative;
+      text-transform:uppercase;
+      letter-spacing:.05em;
+      margin-left:1.2rem;
+      transition:color .2s;
+      text-decoration:none;
+      padding-bottom:2px;
+    }
+    .nav-link:hover, .nav-link.active {
+      color:var(--bs-primary);
+    }
+    .nav-link::after {
+      content:'';
+      position:absolute;
+      left:0; bottom:0;
+      height:2px; width:0;
+      background:currentColor;
+      transition:width .3s ease;
+    }
+    .nav-link:hover::after,
+    .nav-link.active::after {
+      width:100%;
+    }
+    .hero {
+      background:linear-gradient(135deg,#6c63ff 0%,#4dd0e1 100%);
+      color:#fff;
+      text-align:center;
+      padding:6rem 1rem 4rem;
+    }
+    .hero h1 {
+      font-weight:600;
+      font-size:2.75rem;
+    }
+    .hero .lead {
+      font-weight:300;
+      font-size:1.5rem;
+      margin-bottom:2rem;
+    }
+    .btn-primary {
+      text-transform:uppercase;
+      letter-spacing:.05em;
+      padding:.75rem 1.5rem;
+    }
+    .card {
+      border-radius:.5rem;
+      overflow:hidden;
+      transition:transform .3s,box-shadow .3s;
+    }
+    .card:hover {
+      transform:translateY(-8px);
+      box-shadow:0 12px 24px rgba(0,0,0,.1);
+    }
+    footer {
+      background:#fff;
+      border-top:1px solid #e5e5e5;
+      text-transform:uppercase;
+      letter-spacing:.05em;
+      font-size:.85rem;
+      padding:1rem 0;
+    }
+
+    /* ---- OMDb-specific & skeleton ---- */
+    :root { --bs-primary:#6c63ff; }
+    .form-control { border:2px solid var(--bs-primary); }
+    .rounded-pill { border-radius:50rem!important; }
+    .rating-stars .bi { color:gold; }
+    .skeleton {
+      background:#e0e0e0;
+      border-radius:.25rem;
+      animation:pulse 1.5s ease-in-out infinite;
+    }
+    .skeleton-img { width:100%; height:400px; }
+    .skeleton-text {
+      height:1rem; margin-top:.75rem; width:70%;
+    }
+    @keyframes pulse {
+      0% {opacity:1} 50%{opacity:.4} 100%{opacity:1}
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg shadow-sm">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center" href="index.html">
+        <svg width="40" height="40" viewBox="0 0 250 200"
+             xmlns="http://www.w3.org/2000/svg">
+          <path d="M30,150 L30,60 L80,60 L105,100 L155,60 L205,60 L205,150 Z"
+                fill="#6c63ff"/>
+          <circle class="reel" cx="90" cy="60" r="20" fill="#4dd0e1"/>
+          <circle class="reel" cx="160" cy="60" r="20" fill="#4dd0e1"/>
+          <circle class="reel" cx="90" cy="60" r="6" fill="#fff"/>
+          <circle class="reel" cx="160" cy="60" r="6" fill="#fff"/>
+        </svg>
+        <span class="ms-2 logo-text text-dark">MyMovieDB</span>
+      </a>
+      <button class="navbar-toggler" type="button"
+              data-bs-toggle="collapse" data-bs-target="#navbarNav"
+              aria-controls="navbarNav" aria-expanded="false"
+              aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto align-items-center">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link active" href="search.html">Search All Movies</a></li>
+          <li class="nav-item ms-3">
+            <button class="btn btn-contact" data-bs-toggle="modal"
+                    data-bs-target="#contactModal">Contact</button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO & SEARCH FORM -->
+  <header class="hero">
+    <div class="container">
+      <h1>Search the OMDb<br>Movie Database</h1>
+      <p class="lead">TYPE A TITLE AND HIT ENTER OR CLICK SEARCH</p>
+      <form id="search-form" class="row g-2 justify-content-center" onsubmit="return false;">
+        <div class="col-12 col-md-6">
+          <input
+            type="text"
+            id="search-input"
+            class="form-control rounded-pill"
+            placeholder="Enter movie title…"
+            autocomplete="off"
+            required
+          />
+        </div>
+        <div class="col-12 col-md-1 d-grid">
+          <button id="search-btn" class="btn btn-primary rounded-pill">Search</button>
+        </div>
+      </form>
+    </div>
+  </header>
+
+  <!-- RESULTS GRID -->
+  <main class="container py-4">
+    <div id="results" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4"></div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container text-center text-muted">&copy; 2025 MyMovieDB</div>
+  </footer>
+
+  <!-- CONTACT  -->
+<div class="modal fade" id="contactModal" tabindex="-1"
+aria-labelledby="contactModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered">
+<div class="modal-content border-0 shadow-lg">
+ <div class="modal-header bg-primary text-white">
+   <h5 class="modal-title" id="contactModalLabel">Contact Admin</h5>
+   <button type="button" class="btn-close btn-close-white"
+           data-bs-dismiss="modal" aria-label="Close"></button>
+ </div>
+ <div class="modal-body p-4">
+   <form id="contactForm">
+     <div class="form-floating mb-3">
+       <input
+         type="text"
+         class="form-control"
+         id="contact-name"
+         placeholder="Your Name"
+         required
+       />
+       <label for="contact-name">Your Name</label>
+     </div>
+     <div class="form-floating mb-3">
+       <input
+         type="email"
+         class="form-control"
+         id="contact-email"
+         placeholder="name@example.com"
+         required
+       />
+       <label for="contact-email">Email address</label>
+     </div>
+     <div class="form-floating mb-4">
+       <textarea
+         class="form-control"
+         placeholder="Leave your message here"
+         id="contact-message"
+         style="height: 120px"
+         required
+       ></textarea>
+       <label for="contact-message">Message</label>
+     </div>
+     <div class="d-grid">
+       <button type="submit" class="btn btn-primary btn-lg">
+         Send Message
+       </button>
+     </div>
+   </form>
+ </div>
+</div>
+</div>
+</div>
+
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- your updated OMDb search logic: -->
+  <script src="scripy.js"></script>
+</body>
+</html>

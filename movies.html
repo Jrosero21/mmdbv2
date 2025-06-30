@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MyMovieDB – Movie Details</title>
+
+  <!-- Bootstrap CSS -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+  <!-- Bootstrap Icons -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+    rel="stylesheet"
+  />
+  <!-- Inter font -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    /* ---- Base styles (match index/search) ---- */
+    body {
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background: #f8f9fa;
+    }
+    .navbar {
+      background: #fff;
+      border-bottom: 1px solid #e5e5e5;
+      padding: .75rem 1rem;
+    }
+    .logo-text {
+      font-weight: 700;
+      font-size: 1.6rem;
+    }
+    .nav-link {
+      position: relative;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      margin-left: 1.2rem;
+      transition: color .2s;
+      text-decoration: none;
+      padding-bottom: 2px;
+    }
+    .nav-link:hover, .nav-link.active {
+      color: var(--bs-primary);
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      left: 0; bottom: 0;
+      height: 2px; width: 0;
+      background: currentColor;
+      transition: width .3s ease;
+    }
+    .nav-link:hover::after,
+    .nav-link.active::after {
+      width: 100%;
+    }
+    footer {
+      background: #fff;
+      border-top: 1px solid #e5e5e5;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      font-size: .85rem;
+      padding: 1rem 0;
+    }
+
+    /* ---- Theme colors ---- */
+    :root {
+      --bs-primary: #6c63ff;
+      --bs-secondary: #6c757d;
+    }
+
+    /* ---- Back link ---- */
+    .back-link {
+      display: inline-block;
+      margin-bottom: 1.5rem;
+      color: var(--bs-primary);
+      font-weight: 500;
+      text-decoration: none;
+      position: relative;
+      padding-bottom: 2px;
+    }
+    .back-link::after {
+      content:'';
+      position:absolute;
+      left:0; bottom:0;
+      height:2px; background:currentColor;
+      width:0; transition: width .3s;
+    }
+    .back-link:hover::after {
+      width:100%;
+    }
+
+    /* ---- Detail card ---- */
+    .detail-card {
+      border-radius: .5rem;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,.1);
+      background: #fff;
+    }
+    .movie-poster {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+    }
+    .movie-title {
+      color: var(--bs-primary);
+      font-size: 2rem;
+      font-weight: 600;
+      margin-bottom: .5rem;
+    }
+    .movie-meta {
+      font-size: .9rem;
+      color: #555;
+      margin-bottom: 1rem;
+    }
+    .movie-plot {
+      margin-bottom: 1.5rem;
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+
+    /* ---- Star ratings ---- */
+    .rating-stars .bi { color: gold; }
+
+    /* ---- Contact button ---- */
+    .btn-contact {
+      border-radius: 50px;
+      color: #212529;
+      border: 1px solid #212529;
+    }
+    .btn-contact:hover { background: rgba(33,33,33,0.1); }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg shadow-sm">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center" href="index.html">
+        <!-- SVG logo -->
+        <svg width="40" height="40" viewBox="0 0 250 200"
+             xmlns="http://www.w3.org/2000/svg">
+          <path d="M30,150 L30,60 L80,60 L105,100 L155,60 L205,60 L205,150 Z"
+                fill="#6c63ff"/>
+          <circle class="reel" cx="90" cy="60" r="20" fill="#4dd0e1"/>
+          <circle class="reel" cx="160" cy="60" r="20" fill="#4dd0e1"/>
+          <circle class="reel" cx="90" cy="60" r="6" fill="#fff"/>
+          <circle class="reel" cx="160" cy="60" r="6" fill="#fff"/>
+        </svg>
+        <span class="ms-2 logo-text text-dark">MyMovieDB</span>
+      </a>
+      <button class="navbar-toggler" type="button"
+              data-bs-toggle="collapse" data-bs-target="#navbarNav"
+              aria-controls="navbarNav" aria-expanded="false"
+              aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto align-items-center">
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="search.html">Search Movies</a>
+          </li>
+          <li class="nav-item ms-3">
+            <button class="btn btn-contact" data-bs-toggle="modal"
+                    data-bs-target="#contactModal">
+              Contact
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MAIN DETAIL -->
+  <main class="container py-5">
+    <a href="index.html" class="back-link">&larr; Back to Now Playing</a>
+    <div id="movie-detail" class="detail-card row g-0"></div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container text-center text-muted">&copy; 2025 MyMovieDB</div>
+  </footer>
+
+  <!-- CONTACT MODAL (modern floating form) -->
+  <div class="modal fade" id="contactModal" tabindex="-1"
+       aria-labelledby="contactModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg">
+        <div class="modal-header bg-primary text-white">
+          <h5 class="modal-title" id="contactModalLabel">Contact Admin</h5>
+          <button type="button" class="btn-close btn-close-white"
+                  data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-4">
+          <form id="contactForm">
+            <div class="form-floating mb-3">
+              <input type="text" class="form-control" id="contact-name"
+                     placeholder="Your Name" required>
+              <label for="contact-name">Your Name</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input type="email" class="form-control" id="contact-email"
+                     placeholder="name@example.com" required>
+              <label for="contact-email">Email address</label>
+            </div>
+            <div class="form-floating mb-4">
+              <textarea class="form-control" id="contact-message"
+                        placeholder="Leave your message here"
+                        style="height:120px" required></textarea>
+              <label for="contact-message">Message</label>
+            </div>
+            <div class="d-grid">
+              <button type="submit" class="btn btn-primary btn-lg">
+                Send Message
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Movie Details + Star script -->
+  <script>
+    const apiKey = '938bf0f74418d8f3715d37699adfa035';
+    const detailEl = document.getElementById('movie-detail');
+
+    function roundToHalf(n) {
+      return Math.round(n * 2) / 2;
+    }
+    function renderStars(v) {
+      const val  = roundToHalf(v / 2);
+      const full = Math.floor(val),
+            half = (val - full) >= 0.5 ? 1 : 0,
+            empty= 5 - full - half;
+      return (
+        '<span class="rating-stars">' +
+          '<i class="bi bi-star-fill"></i>'.repeat(full) +
+          (half ? '<i class="bi bi-star-half"></i>' : '') +
+          '<i class="bi bi-star"></i>'.repeat(empty) +
+        `</span> <small class="text-muted">(${val})</small>`
+      );
+    }
+
+    // fetch details + credits
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id');
+    if (!id) {
+      detailEl.innerHTML = `<div class="col-12 text-center p-5">
+        <p class="text-danger">No movie ID provided.</p>
+      </div>`;
+    } else {
+      fetch(`https://api.themoviedb.org/3/movie/${id}` +
+            `?api_key=${apiKey}&language=en-US&append_to_response=credits`)
+        .then(r => r.json())
+        .then(m => {
+          // find director
+          const dir = (m.credits.crew || [])
+            .find(c=>c.job==='Director')?.name || 'N/A';
+          detailEl.innerHTML = `
+            <div class="col-md-4">
+              <img
+                src="${m.poster_path
+                  ? 'https://image.tmdb.org/t/p/w500'+m.poster_path
+                  : 'https://via.placeholder.com/300x450?text=No+Image'}"
+                alt="${m.title}"
+                class="movie-poster"
+              >
+            </div>
+            <div class="col-md-8 p-4">
+              <h1 class="movie-title">${m.title} (${m.release_date.slice(0,4)})</h1>
+              <div class="movie-meta mb-3">
+                ${renderStars(m.vote_average)} &nbsp;|&nbsp;
+                <strong>Genre:</strong> ${m.genres.map(g=>g.name).join(', ')}<br>
+                <strong>Director:</strong> ${dir} &nbsp;|&nbsp;
+                <strong>Runtime:</strong> ${m.runtime} min
+              </div>
+              <p class="movie-plot">${m.overview}</p>
+              <div class="movie-meta mt-3">
+                <strong>Language:</strong> ${m.spoken_languages.map(l=>l.english_name).join(', ')}<br>
+                <strong>Awards:</strong> ${m.adult?'Adult Content':'N/A'}
+              </div>
+            </div>`;
+        })
+        .catch(err => {
+          console.error(err);
+          detailEl.innerHTML = `<div class="col-12 text-center p-5">
+            <p class="text-danger">Error loading movie.</p>
+          </div>`;
+        });
+    }
+
+    // Contact form handler
+    document.getElementById('contactForm').addEventListener('submit', e => {
+      e.preventDefault();
+      const n  = document.getElementById('contact-name').value.trim(),
+            em = document.getElementById('contact-email').value.trim(),
+            msg= document.getElementById('contact-message').value.trim();
+      window.location.href =
+        `mailto:admin@mymoviedb.com?subject=${encodeURIComponent('Contact from '+n)}` +
+        `&body=${encodeURIComponent('Name: '+n+'%0AEmail: '+em+'%0A%0A'+msg)}`;
+      bootstrap.Modal.getInstance(
+        document.getElementById('contactModal')
+      ).hide();
+    });
+  </script>
+</body>
+</html>

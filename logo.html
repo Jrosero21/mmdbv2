@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>MyMovieDB Animated Logo</title>
+  <style>
+    /* Reel animation */
+    .reel {
+      transform-origin: center;
+      animation: spin 2s linear infinite;
+    }
+    @keyframes spin {
+      0%   { transform: rotate(0deg)   scale(1);   }
+      50%  { transform: rotate(180deg) scale(1.1); }
+      100% { transform: rotate(360deg) scale(1);   }
+    }
+
+    /* Wordmark styling */
+    text {
+      font-family: 'Segoe UI', sans-serif;
+      font-weight: 600;
+      font-size: 32px;
+      fill: #6c63ff;
+    }
+  </style>
+</head>
+<body>
+  <svg
+    width="250"
+    height="200"
+    viewBox="0 0 250 200"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <!-- Camera body shaped like an “M” -->
+    <path
+      d="M30,150 L30,60 L80,60 L105,100 L155,60 L205,60 L205,150 Z"
+      fill="#6c63ff"
+    />
+
+    <!-- Film reel #1 -->
+    <circle
+      class="reel"
+      cx="90" cy="60" r="20"
+      fill="#4dd0e1"
+    />
+    <!-- Film reel #2 -->
+    <circle
+      class="reel"
+      cx="160" cy="60" r="20"
+      fill="#4dd0e1"
+    />
+
+    <!-- Reel centers -->
+    <circle class="reel" cx="90"  cy="60" r="6" fill="#ffffff" />
+    <circle class="reel" cx="160" cy="60" r="6" fill="#ffffff" />
+
+    <!-- Wordmark -->
+    <text x="50" y="180">MyMovieDB</text>
+  </svg>
+</body>
+</html>
