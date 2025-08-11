@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import MovieGrid from '../components/MovieGrid';
 import BootstrapSpinner from '../components/BootstrapSpinner';
-
-const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
+import { searchMoviesTMDB } from '../api/tmdb';
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -18,36 +17,33 @@ export default function SearchResults() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    let active = true;
     if (!query) return;
 
     setLoading(true);
     setError('');
     setMovies([]);
 
-    const fetchSearchResults = async () => {
-      try {
-        const res = await fetch(
-          `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=en-US&query=${encodeURIComponent(query)}&page=1`
-        );
-        const data = await res.json();
+    searchMoviesTMDB(query)
+      .then((data) => {
+        if (!active) return;
         if (data.results && data.results.length > 0) {
           setMovies(data.results);
         } else {
           setError('No results found.');
         }
-      } catch (err) {
-        setError('Failed to fetch search results.');
-      } finally {
-        setLoading(false);
-      }
-    };
+      })
+      .catch(() => {
+        if (active) setError('Failed to fetch search results.');
+      })
+      .finally(() => {
+        if (active) setLoading(false);
+      });
 
-    fetchSearchResults();
+    return () => { active = false; };
   }, [query]);
 
-  const handleMovieClick = (id) => {
-    navigate(`/movie/${id}`);
-  };
+  const handleMovieClick = (id) => navigate(`/movie/${id}`);
 
   return (
     <main className="container py-4">

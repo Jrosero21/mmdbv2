@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import BootstrapSpinner from '../components/BootstrapSpinner';
-
-const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
+import RelatedCarousel from '../components/RelatedCarousel';
+import { fetchMovie, fetchSimilar, img } from '../api/tmdb';
 
 export default function MovieSummary() {
   const { id } = useParams();
@@ -16,58 +16,54 @@ export default function MovieSummary() {
   const [showManualPrompt, setShowManualPrompt] = useState(false);
 
   useEffect(() => {
-    async function fetchMovie() {
+    let active = true;
+    async function run() {
       setLoading(true);
       setError('');
       try {
-        const res = await fetch(
-          `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}&language=en-US`
-        );
-        if (!res.ok) throw new Error('Movie not found');
-        const data = await res.json();
-        setMovie(data);
-      } catch (err) {
-        setError('Failed to load movie details.');
+        const data = await fetchMovie(id);
+        if (active) setMovie(data);
+      } catch (e) {
+        if (active) setError('Failed to load movie details.');
       } finally {
-        setLoading(false);
+        if (active) setLoading(false);
       }
     }
-    fetchMovie();
+    run();
+    return () => { active = false; };
   }, [id]);
 
   useEffect(() => {
-    async function fetchRelated() {
+    let active = true;
+    async function run() {
       if (!movie) return;
       setRelatedLoading(true);
       try {
-        const res = await fetch(
-          `https://api.themoviedb.org/3/movie/${id}/similar?api_key=${API_KEY}&language=en-US&page=1`
-        );
-        const data = await res.json();
-        setRelatedMovies(data.results || []);
+        const data = await fetchSimilar(id);
+        if (active) setRelatedMovies(data.results || []);
       } catch {
-        setRelatedMovies([]);
+        if (active) setRelatedMovies([]);
       } finally {
-        setRelatedLoading(false);
+        if (active) setRelatedLoading(false);
       }
     }
-    fetchRelated();
+    run();
+    return () => { active = false; };
   }, [id, movie]);
 
   const isReleased = movie && new Date(movie.release_date) <= new Date();
 
-  // Opens Google search in new tab and alerts if blocked
+
   const openShowtimesTab = (movieTitle, zipCode) => {
     const locationQuery = zipCode ? `near+${zipCode}` : 'near+me';
     const url = `https://www.google.com/search?q=Showtimes+for+${movieTitle}+${locationQuery}`;
-    console.log(`Opening showtimes URL: ${url}`); // Debug log
     const newWindow = window.open(url, '_blank');
     if (!newWindow) {
       alert('Popup blocked! Please allow popups for this site.');
     }
   };
 
-  // Attempts geolocation + ZIP lookup, or fallback to near me search
+  
   const getZipFromCoords = async (lat, lon) => {
     try {
       const res = await fetch(
@@ -89,9 +85,7 @@ export default function MovieSummary() {
           const zip = await getZipFromCoords(latitude, longitude);
           openShowtimesTab(movieTitle, zip);
         },
-        () => {
-          openShowtimesTab(movieTitle, null);
-        }
+        () => openShowtimesTab(movieTitle, null)
       );
     } else {
       openShowtimesTab(movieTitle, null);
@@ -109,14 +103,9 @@ export default function MovieSummary() {
       const zip = prompt(
         'Enter your ZIP code to find showtimes nearby (or leave blank to search near me):'
       );
-      console.log(`User entered ZIP code: ${zip}`); // Debug log
       openShowtimesTab(movieTitle, zip && zip.trim() !== '' ? zip.trim() : null);
       setShowManualPrompt(false);
     }
-  };
-
-  const handleRelatedMovieClick = (movieId) => {
-    navigate(`/movie/${movieId}`);
   };
 
   if (loading) {
@@ -127,8 +116,8 @@ export default function MovieSummary() {
     );
   }
 
-  if (error) {
-    return <p className="text-danger text-center py-5">{error}</p>;
+  if (error || !movie) {
+    return <p className="text-danger text-center py-5">{error || 'Movie not found.'}</p>;
   }
 
   return (
@@ -136,11 +125,7 @@ export default function MovieSummary() {
       <div className="row g-4">
         <div className="col-md-4">
           <img
-            src={
-              movie.poster_path
-                ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
-                : 'https://dummyimage.com/300x450/cccccc/555555&text=No+Image'
-            }
+            src={img.poster(movie.poster_path, 500)}
             alt={movie.title}
             className="img-fluid rounded"
           />
@@ -156,7 +141,10 @@ export default function MovieSummary() {
             <strong>Release Date:</strong> {movie.release_date}
           </p>
           <p>
-            <strong>Genres:</strong> {movie.genres.map((g) => g.name).join(', ')}
+            <strong>Genres:</strong>{' '}
+            {Array.isArray(movie.genres) && movie.genres.length
+              ? movie.genres.map((g) => g.name).join(', ')
+              : '—'}
           </p>
           <p>{movie.overview}</p>
           <button
@@ -175,45 +163,18 @@ export default function MovieSummary() {
       </div>
 
       <section className="mt-5">
-        <h3>Related Movies</h3>
+        <h3 className="mb-3">Related Movies</h3>
         {relatedLoading ? (
           <div className="d-flex justify-content-center py-3">
             <BootstrapSpinner size="3rem" />
           </div>
-        ) : relatedMovies.length ? (
-          <div
-            className="d-flex overflow-auto gap-3"
-            style={{ whiteSpace: 'nowrap' }}
-          >
-            {relatedMovies.map((rel) => (
-              <div
-                key={rel.id}
-                style={{ minWidth: '150px', cursor: 'pointer' }}
-                onClick={() => handleRelatedMovieClick(rel.id)}
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) =>
-                  e.key === 'Enter' && handleRelatedMovieClick(rel.id)
-                }
-              >
-                <img
-                  src={
-                    rel.poster_path
-                      ? `https://image.tmdb.org/t/p/w200${rel.poster_path}`
-                      : 'https://dummyimage.com/150x225/cccccc/555555&text=No+Image'
-                  }
-                  alt={rel.title}
-                  className="img-fluid rounded"
-                />
-                <p className="mt-1 text-truncate">{rel.title}</p>
-              </div>
-            ))}
-          </div>
         ) : (
-          <p>No related movies found.</p>
+          <RelatedCarousel
+            items={relatedMovies}
+            onClickItem={(movieId) => navigate(`/movie/${movieId}`)}
+          />
         )}
       </section>
     </main>
   );
 }
-
