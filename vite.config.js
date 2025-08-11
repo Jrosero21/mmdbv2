@@ -7,8 +7,5 @@ export default defineConfig({
   base: './',
   build: {
     outDir: 'dist-react',
-    rollupOptions: {
-      input: 'index.react.html',
-    },
   },
 });

@@ -1,0 +1,17 @@
+# Ignore environment variables
+.env
+
+# Node modules
+node_modules/
+
+# Build output
+dist/
+dist-react/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Optional: OS files
+.DS_Store

@@ -1,35 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import MovieReelSpinner from './components/MovieReelSpinner';
-
-const Home = () => {
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    // Simulate loading for 3 seconds, then show the page content
-    const timer = setTimeout(() => setLoading(false), 3000);
-    return () => clearTimeout(timer);
-  }, []);
-
-  return (
-    <div className="container text-center mt-5">
-      {loading ? (
-        <MovieReelSpinner size={64} />
-      ) : (
-        <h1>Welcome to MyMovieDB React</h1>
-      )}
-    </div>
-  );
-};
-
-const SearchResults = () => <h1>Search Results Page</h1>;
+import Navbar from './components/Navbar';
+import Home from './pages/Home';
+import SearchResults from './pages/SearchResults';
 
 export default function App() {
   return (
     <BrowserRouter>
+      <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/search" element={<SearchResults />} />
+        <Route path="/search-results" element={<SearchResults />} />
+        {/* Add other routes here as needed */}
       </Routes>
     </BrowserRouter>
   );
