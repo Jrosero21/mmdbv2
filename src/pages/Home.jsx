@@ -12,7 +12,7 @@ export default function Home() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Fetch now playing movies on mount
+   
     const fetchNowPlaying = async () => {
       try {
         const res = await fetch(
@@ -27,7 +27,6 @@ export default function Home() {
     fetchNowPlaying();
   }, []);
 
-  // Sort movies based on selected option
   const sortMovies = (moviesList, option) => {
     switch (option) {
       case 'title-asc':

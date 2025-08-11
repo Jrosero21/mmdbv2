@@ -44,7 +44,7 @@ export default function Navbar() {
                 className="btn btn-outline-dark rounded-pill"
                 onClick={() => alert('Contact modal not implemented yet')}
               >
-                Contact Me!
+                Contact
               </button>
             </li>
           </ul>
