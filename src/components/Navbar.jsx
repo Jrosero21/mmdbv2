@@ -48,7 +48,7 @@ export default function Navbar() {
             </li>
             <li className="nav-item">
               <NavLink
-                to="/search-results"
+                to="/search"
                 className={({ isActive }) =>
                   `nav-link nav-underline text-uppercase ms-3 ${isActive ? 'active' : ''}`
                 }
