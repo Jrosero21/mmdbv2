@@ -15,3 +15,7 @@ yarn-error.log*
 
 # Optional: OS files
 .DS_Store
+
+# old files
+index.static.html
+scripy.js
